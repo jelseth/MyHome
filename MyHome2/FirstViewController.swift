@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import SwiftyJSON
+import Alamofire
 
 class FirstViewController: UIViewController {
-
+    let State = false
+    var Origin = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -19,7 +23,37 @@ class FirstViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    @IBAction func btn_DoorState(_ sender: AnyObject)
+    {
+        let queue = DispatchQueue(label: "com.cnoon.response-queue", qos: .utility, attributes: [.concurrent])
+        
+        Alamofire.request("https://httpbin.org/get", parameters: ["foo": "bar"])
+            .response(
+                queue: queue,
+                responseSerializer: DataRequest.jsonResponseSerializer(),
+                completionHandler: { response in
+                    // You are now running on the concurrent `queue` you created earlier.
+                    print("Parsing JSON on thread: \(Thread.current) is main thread: \(Thread.isMainThread)")
+                    
+                    // Validate your JSON response and convert into model objects if necessary
+                    print(response.result.value)
+                    
+                    // To update anything on the main thread, just jump back on like so.
+                    DispatchQueue.main.async {
+                        
+                        let JSON = SwiftyJSON.JSON(response.result.value)
+                        let originJson = JSON["origin"]
+                        self.Origin = originJson.string!
+                        let num = arc4random_uniform(100)
+                        self.lbl_DoorState.text = "\(self.Origin) \(num)"
+                        print("Am I back on the main thread: \(Thread.isMainThread)")
+                        
+                    }
+                }
+        )
 
-
+    }
+    @IBOutlet weak var lbl_DoorState: UILabel!
+    
 }
 
