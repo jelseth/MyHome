@@ -25,6 +25,7 @@ class FirstViewController: UIViewController {
     }
     @IBAction func btn_DoorState(_ sender: AnyObject)
     {
+        //comments
         let queue = DispatchQueue(label: "com.cnoon.response-queue", qos: .utility, attributes: [.concurrent])
         
         Alamofire.request("https://httpbin.org/get", parameters: ["foo": "bar"])
