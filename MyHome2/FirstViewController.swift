@@ -28,7 +28,7 @@ class FirstViewController: UIViewController {
         //comments
         let queue = DispatchQueue(label: "com.cnoon.response-queue", qos: .utility, attributes: [.concurrent])
         
-        Alamofire.request("https://httpbin.org/get", parameters: ["foo": "bar"])
+        Alamofire.request("http://192.168.15.47", parameters: ["foo": "bar"])
             .response(
                 queue: queue,
                 responseSerializer: DataRequest.jsonResponseSerializer(),
@@ -43,7 +43,7 @@ class FirstViewController: UIViewController {
                     DispatchQueue.main.async {
                         
                         let JSON = SwiftyJSON.JSON(response.result.value)
-                        let originJson = JSON["origin"]
+                        let originJson = JSON["To"]
                         self.Origin = originJson.string!
                         let num = arc4random_uniform(100)
                         self.lbl_DoorState.text = "\(self.Origin) \(num)"
