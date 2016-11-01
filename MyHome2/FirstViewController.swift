@@ -46,7 +46,7 @@ class FirstViewController: UIViewController {
                         let originJson = JSON["To"]
                         self.Origin = originJson.string!
                         let num = arc4random_uniform(100)
-                        self.lbl_DoorState.text = "\(self.Origin) \(num)"
+                        self.lbl_DoorState.text = "\(self.Origin) \(num) Hi"
                         print("Am I back on the main thread: \(Thread.isMainThread)")
                         
                     }
